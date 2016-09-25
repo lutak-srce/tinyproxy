@@ -57,7 +57,7 @@ BindSame yes
 # Timeout: The maximum number of seconds of inactivity a connection is
 # allowed to have before it is closed by tinyproxy.
 #
-Timeout 600
+Timeout <%= @timeout %>
 
 #
 # ErrorFile: Defines the HTML file to send when a given HTTP error
@@ -235,7 +235,7 @@ Allow <%= allow_ip %>
 # is enabled, the string supplied will be used as the host name in the
 # Via header; otherwise, the server's host name will be used.
 #
-ViaProxyName "tinyproxy"
+ViaProxyName "<%= @viaproxyname %>"
 
 #
 # DisableViaHeader: When this is set to yes, Tinyproxy does NOT add
@@ -249,23 +249,39 @@ ViaProxyName "tinyproxy"
 #
 # Filter: This allows you to specify the location of the filter file.
 #
+<% if ! @filter.nil? -%>
+Filter "<%= @filter %>"
+<% else -%>
 #Filter "/etc/tinyproxy/filter"
+<% end -%>
 
 #
 # FilterURLs: Filter based on URLs rather than domains.
 #
+<% if ! @filter_urls -%>
 #FilterURLs On
+<% else -%>
+FilterURLs On
+<% end -%>
 
 #
 # FilterExtended: Use POSIX Extended regular expressions rather than
 # basic.
 #
+<% if ! @filter_extended -%>
 #FilterExtended On
+<% else -%>
+FilterExtended On
+<% end -%>
 
 #
 # FilterCaseSensitive: Use case sensitive regular expressions.
 #
+<% if ! @filter_casesensitive -%>
 #FilterCaseSensitive On
+<% else -%>
+FilterCaseSensitive On
+<% end -%>
 
 #
 # FilterDefaultDeny: Change the default policy of the filtering system.
@@ -277,7 +293,11 @@ ViaProxyName "tinyproxy"
 # to deny everything which is _not_ specifically allowed by the filter
 # file.
 #
+<% if ! @filter_defaultdeny -%>
 #FilterDefaultDeny Yes
+<% else -%>
+FilterDefaultDeny Yes
+<% end -%>
 
 #
 # Anonymous: If an Anonymous keyword is present, then anonymous proxying
